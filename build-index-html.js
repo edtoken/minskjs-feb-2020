@@ -8,7 +8,8 @@ const marks = {
     end: '<!-- SLIDES END -->',
 };
 
-const isDev = process.argv.find(arg => arg.includes('watch.js'));
+// const isDev = process.argv.find(arg => arg.includes('watch.js'));
+const isDev = false;
 
 module.exports = function () {
 
