@@ -13,7 +13,7 @@
   },
   "scripts": {
     "develop": "run-p -r watch:html shower:serve",
-    "build": "run-s build:html shower:archive",
+    "build": "run-s build:html",
     "serve": "run-s shower:serve",
     "watch:html": "node watch.js",
     "build:html": "node build.js",
