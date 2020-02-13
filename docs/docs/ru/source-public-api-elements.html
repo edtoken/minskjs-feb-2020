@@ -1,0 +1,13 @@
+<section class="slide grid">
+<h4>Public API (elements)</h4>
+
+<pre><code class="hljs javascript">const card = YourPaymentLib.<mark>card.mount</mark>('#id');
+card.on('<mark>ready</mark>', () => {});
+card.on('<mark>change</mark>', ({
+    errors, <span class="comment">// Array&lt;String&gt; </span>
+    valid, <span class="comment">// Boolean </span>
+    completed <span class="comment">// Boolean </span>
+}) => {});
+...
+</code></pre>
+</section>

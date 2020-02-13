@@ -1,0 +1,16 @@
+<section class="slide grid">
+<pre><code class="hljs javascript">
+function listener(event) {
+    if (event.origin !== document.location.origin) {
+        return;
+    }
+
+    if(!Sanitize.valid(event)) {
+        <mark>throw new Error('Rejected');</mark>
+    }
+}
+
+window.addEventListener("message", listener);
+</code></pre>
+    <div class="next success-img"></div>
+</section>
