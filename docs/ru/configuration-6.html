@@ -1,0 +1,17 @@
+<section class="slide grid">
+<div>
+    <pre><code class="hljs javascript">const locales = ['ru-RU'];
+class Sanitize {
+    valid(key, value){
+        <mark>if (['__proto__'].includes(key) {
+            return false;
+        }</mark>
+        if (key === 'locale' && locales.includes(value)) {
+            return true;
+        }
+        return false;
+    }
+}
+</code></pre>
+    </div>
+</section>

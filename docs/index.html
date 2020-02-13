@@ -1,0 +1,1438 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Безопасный input. Сбор данных пластиковой карты в iframe.</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="shower/themes/ribbon/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+
+
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 10);
+        }
+
+        mark > mark.important {
+            z-index: 2;
+        }
+
+        .slide-debug-name {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 8px;
+            z-index: 100500;
+            background: #ddd;
+            line-height: 8px;
+        }
+
+        .success-img {
+            display: block;
+            position: absolute;
+            bottom: 5%;
+            right: 0;
+            z-index: 10;
+            width: 20%;
+            height: 36%;
+            background: url('./pictures/success.png');
+            background-size: cover;
+        }
+
+        .danger-img {
+            display: block;
+            position: absolute;
+            bottom: 5%;
+            right: 1%;
+            z-index: 10;
+            width: 22%;
+            height: 31%;
+            background: url('./pictures/danger.jpeg');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="shower list">
+
+<header class="caption">
+    <h1>Безопасный input.
+        <small style="font-size: 60%;">Сбор данных пластиковой карты в iframe.</small>
+    </h1>
+</header>
+
+<!-- SLIDES START -->
+
+
+<!-- START SLIDE main -->
+<section class="slide s-main">
+
+
+    <div>
+        <h2 style="margin-top: 5rem;">
+            Безопасный Input <br>
+            Сбор данных пластиковой карты в iframe
+        </h2>
+
+        <p class="s-main-author"><b>Эдуард Титов</b> <a href="http://ed.titov.im">ed.titov.im</a></p>
+
+        <div class="s-main-info">
+            <p class="note">Информация только для ознакомления,<br/>может содержать неточности или отсутствовать</p>
+        </div>
+    </div>
+</section>
+
+<style>
+    .s-main-author {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        padding: 75px var(--slide-side) 0;
+    }
+
+    .s-main-info {
+        position: absolute;
+        right: 0;
+        bottom: 20%;
+        padding: 75px var(--slide-side) 0;
+        text-align: right;
+        font-size: 80%;
+    }
+</style>
+
+<!-- END SLIDE main -->
+
+<!-- START SLIDE about -->
+<section class="slide">
+
+
+    <div class="columns two">
+        <div>
+            <img src="../pictures/me.jpg" alt="" style="width: 100%;height:auto">
+        </div>
+        <div>
+            <h2>О себе</h2>
+            <ul>
+                <li class="next">2012 начал</li>
+                <li class="next">Работал с BackboneJS и Grunt</li>
+                <li class="next">Делал бэкенд на Python</li>
+                <li class="next">React/Vue</li>
+                <li class="next">Знаю, как ощущается -50&deg;C</li>
+                <li class="next" style="line-height: normal;">2018
+                    <small>
+                        <b>Немного про Front-end собеседования в некоторые известные компании</b>
+                        <a href="https://medium.com/@editied/%D0%BD%D0%B5%D0%BC%D0%BD%D0%BE%D0%B3%D0%BE-%D0%BF%D1%80%D0%BE-front-end-%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B2-%D0%BD%D0%B5%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B5-%D0%B8%D0%B7%D0%B2%D0%B5%D1%81%D1%82%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D0%B8-cc3ba0228318">medium.com/@editied/...</a>
+                    </small>
+                </li>
+                <div class="next" style="padding-top:1rem">
+                    <li>
+                        <div>
+                            <span>2018</span>&nbsp;&nbsp;
+                            <span>
+                        <img src="../pictures/rebilly.png" alt=""
+                             style="width: 20%;border-radius:100%;vertical-align: middle;">
+                        &nbsp;&nbsp;<b>Rebilly</b>
+                    </span>
+                        </div>
+                    </li>
+                </div>
+
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- END SLIDE about -->
+
+<!-- START SLIDE base-form-example -->
+<section class="slide s-form-example">
+
+
+    <div class="s-work-example-card-wrapper">
+        <div class="example-4">
+            <form>
+                <fieldset>
+                    <div class="fields">
+                        <div class="field">
+                            <label>First Name</label>
+                            <div>
+                                <input data-rebilly="firstName" name="field1" placeholder="John" type="text">
+                            </div>
+                        </div>
+                        <span></span>
+                        <div class="field">
+                            <label>Last Name</label>
+                            <div>
+                                <input data-rebilly="lastName" name="field1" placeholder="Ruppert" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fields">
+                        <div class="field">
+                            <label>Email</label>
+                            <input data-rebilly="emails" name="field2" placeholder="jruppert@example.com" type="text">
+                        </div>
+                        <span></span>
+                        <div class="field">
+                            <label>Phone</label>
+                            <input data-rebilly="phoneNumbers" name="field3" placeholder="(123) 456-7890" type="text">
+                        </div>
+                    </div>
+                    <div class="fields fields-card">
+                        <div class="field">
+                            <label for="number">Payment Card</label>
+                            <div id="number"></div>
+                        </div>
+                    </div>
+                    <div class="fields fields-card">
+                        <div class="field">
+                            <label for="exp">Expiry Date</label>
+                            <div id="exp"></div>
+                        </div>
+                        <span></span>
+                        <div class="field">
+                            <label for="cvv">CVV Number</label>
+                            <div id="cvv"></div>
+                        </div>
+                    </div>
+                </fieldset>
+                <br>
+                <button>Make Payment</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    const connect = () => {
+        return setTimeout(() => {
+            if (typeof Rebilly === 'undefined') {
+                return connect();
+            }
+
+            Rebilly.initialize({
+                publishableKey: 'pk_sandbox_1234567890',
+            });
+            Rebilly.on('ready', function () {
+                Rebilly.card.mount('#number', 'cardNumber');
+                Rebilly.card.mount('#exp', 'cardExpiry');
+                Rebilly.card.mount('#cvv', 'cardCvv');
+            });
+        }, 100);
+    };
+    connect();
+</script>
+
+<style>
+
+    .s-form-example {
+
+    }
+
+    .s-form-example label {
+        margin-bottom: 0;
+        line-height: normal;
+        font-weight: normal;
+
+        color: #999;
+        display: block;
+        min-width: 60px;
+    }
+
+    .s-form-example input {
+        height: 3rem;
+    }
+
+    .s-form-example .fields-card label {
+        margin-bottom: 3px;
+    }
+
+    .example-4 {
+        width: 100%;
+        max-width: 90%;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        background: #fff;
+
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+    }
+
+    .example-4 * {
+    }
+
+    .example-4 fieldset {
+        border: none;
+        padding: 0;
+    }
+
+    .example-4 .fields {
+        display: flex;
+    }
+
+    .example-4 .fields > * {
+        flex: 1 auto;
+    }
+
+    .example-4 .fields span {
+        width: 10px;
+        display: block;
+        max-width: 10px;
+    }
+
+    .example-4 .fields + .fields {
+        margin-top: 20px;
+    }
+
+    .example-4 .field {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .example-4 input,
+    .example-4 button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        border-style: none;
+    }
+
+    .example-4 input {
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        margin: 0;
+        outline: 0;
+        padding: .5rem 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        border-bottom: 1px dashed #ddd;
+        border-right: 1px dashed #ddd;
+        border-left: 1px dashed #ddd;
+        border-top: 1px dashed #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .example-4 input:focus {
+        background: none;
+        color: #000000;
+    }
+
+    .example-4 input:-webkit-autofill {
+        -webkit-text-fill-color: #000000;
+        transition: background-color 100000000s;
+        -webkit-animation: 1ms void-animation-out;
+    }
+
+
+    .example-4 input::placeholder {
+        color: #333;
+    }
+
+    .example-4 button {
+        position: relative;
+        display: block;
+        padding: 16px 40px;
+        color: #ffffff;
+        margin: 0 auto;
+        background: #000000;
+        font-size: 16px;
+        text-align: center;
+        line-height: 20px;
+        font-style: normal;
+        width: 100%;
+        border-radius: 6px;
+        -webkit-box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .example-4 button:hover {
+        cursor: pointer;
+    }
+
+    .example-4 .rebilly-framepay {
+        background: transparent;
+        border-radius: 0;
+        padding: 0 1rem;
+        height: 3rem;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-top: 1px dashed green;
+        border-right: 1px dashed green;
+        border-left: 1px dashed green;
+        border-bottom: 2px solid green;
+    }
+
+    .example-4 .rebilly-framepay.rebilly-framepay-focus {
+        background: transparent;
+    }
+</style>
+
+<!-- END SLIDE base-form-example -->
+
+<!-- START SLIDE checkout-form-example-0 -->
+<section class="slide s-checkout-form-example-0">
+
+
+    <img class="cover" src="../pictures/add-card-1.png" alt="">
+    <span class="blur-bg"></span>
+</section>
+
+<style>
+    .s-checkout-form-example-0 .blur-bg {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../pictures/add-card-1.png");
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: -3;
+    }
+</style>
+
+
+<!-- END SLIDE checkout-form-example-0 -->
+
+<!-- START SLIDE checkout-form-example -->
+<section class="slide s-checkout-form-example">
+
+
+    <img class="cover height" src="../pictures/checkout-form-example.jpg" alt="">
+    <span class="blur-bg"></span>
+</section>
+
+
+<style>
+    .s-checkout-form-example .blur-bg {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: -3;
+    }
+</style>
+
+<!-- END SLIDE checkout-form-example -->
+
+<!-- START SLIDE problem -->
+<section class="slide ">
+
+
+    <h2 class="shout">Где проблема</h2>
+</section>
+
+<!-- END SLIDE problem -->
+
+<!-- START SLIDE pci-persons -->
+<section class="slide s-pci-persons">
+
+
+    <img src="../pictures/pci-logo.png" alt="" class="pci-logo">
+    <img class="cover width" src="../pictures/5-persons-slide.jpg" alt="">
+    <span class="blur-bg"></span>
+</section>
+
+
+<style>
+    .s-pci-persons .pci-logo {
+        position: absolute;
+        top: 37%;
+        left: 38%;
+        width: 22%;
+        height: auto;
+        background: #fff;
+        padding: 10px;
+    }
+
+    .s-pci-persons .blur-bg {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../pictures/5-persons-slide.jpg");
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: -3;
+    }
+</style>
+
+
+<!-- END SLIDE pci-persons -->
+
+<!-- START SLIDE relax -->
+<section class="slide">
+
+
+    <video class="cover height" autoplay loop preload="auto" muted>
+        <source src="../pictures/relax.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+    </video>
+    <img src="../pictures/no.png" class="cover width height next" alt="">
+</section>
+
+<!-- END SLIDE relax -->
+
+<!-- START SLIDE how-it-works -->
+<section class="slide ">
+
+
+    <h2 class="shout">Как это работает</h2>
+</section>
+
+<!-- END SLIDE how-it-works -->
+
+<!-- START SLIDE how-it-works-0 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-1.svg" alt="">
+</section>
+
+<style>
+    .s-hw img.cover {
+        position: absolute;
+        width: 101%;
+        max-width: none !important;
+        max-height: none !important;
+        top: -35px !important;
+        bottom: -17px !important;
+        transform: none;
+        left: -2px !important;
+        right: -2px !important;
+    }
+</style>
+
+<!-- END SLIDE how-it-works-0 -->
+
+<!-- START SLIDE how-it-works-1 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-2.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-1 -->
+
+<!-- START SLIDE how-it-works-2 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-3.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-2 -->
+
+<!-- START SLIDE how-it-works-3 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-4.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-3 -->
+
+<!-- START SLIDE how-it-works-4 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-5.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-4 -->
+
+<!-- START SLIDE how-it-works-5 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-6.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-5 -->
+
+<!-- START SLIDE how-it-works-6 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-7.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-6 -->
+
+<!-- START SLIDE how-it-works-7 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-8.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-7 -->
+
+<!-- START SLIDE how-it-works-8 -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-9.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-8 -->
+
+<!-- START SLIDE how-it-works-full -->
+<section class="slide s-hw">
+
+
+    <img class="cover" src="../pictures/1.vpd-full.svg" alt="">
+</section>
+
+
+<!-- END SLIDE how-it-works-full -->
+
+<!-- START SLIDE checkout-form-example-2 -->
+<section class="slide s-checkout-html">
+
+
+    <iframe src="../pictures/checkout-example-iframe.html" frameborder="0"></iframe>
+</section>
+
+<style>
+    .s-checkout-html iframe {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 15%;
+        left: 0;
+    }
+</style>
+
+<!-- END SLIDE checkout-form-example-2 -->
+
+<!-- START SLIDE communication -->
+<section class="slide">
+
+
+    <h4>Коммуникация</h4>
+    <div class="next">
+        <pre>
+            <code class="hljs javascript">// shop.com → iframe
+.postMessage("message", 'https://service.com');</code></pre>
+    </div>
+    <div class="next">
+        <pre>
+            <code class="hljs javascript">// iframe → shop.com
+.postMessage("message", 'https://shop.com');</code></pre>
+    </div>
+    <div class="next">
+        <pre><code class="hljs javascript">// iframe → service.com
+XMLHttpRequest || ...</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE communication -->
+
+<!-- START SLIDE connect-example -->
+<section class="slide">
+
+
+    <h4>Public API (methods)</h4>
+    <pre><code class="hljs javascript">YourPaymentLib.<mark>initialize</mark>({});
+YourPaymentLib.<mark>createToken</mark>().then().catch();
+
+YourPaymentLib.on('ready', () => {});
+YourPaymentLib.on('error', () => {});
+</code></pre>
+</section>
+
+
+<!-- END SLIDE connect-example -->
+
+<!-- START SLIDE source-public-api-elements -->
+<section class="slide grid">
+
+
+<h4>Public API (elements)</h4>
+
+<pre><code class="hljs javascript">const card = YourPaymentLib.<mark>card.mount</mark>('#id');
+card.on('<mark>ready</mark>', () => {});
+card.on('<mark>change</mark>', ({
+    errors, <span class="comment">// Array&lt;String&gt; </span>
+    valid, <span class="comment">// Boolean </span>
+    completed <span class="comment">// Boolean </span>
+}) => {});
+...
+</code></pre>
+</section>
+
+<!-- END SLIDE source-public-api-elements -->
+
+<!-- START SLIDE submit-example -->
+<section class="slide">
+
+
+<h4>Отправка формы <small>(shop.com)</small></h4>
+
+<div>
+    <pre><code class="hljs javascript">form.onsubmit = (e) => {
+    e.preventDefault();
+    YourPaymentLib.<mark>createToken</mark>(form)
+    .then(({<mark>paymentToken</mark>}) => { // paymentToken - XXXXXXXX
+            // отправка основной формы на shop.com
+            // вместо данных используется paymentToken
+        })
+}</code></pre>
+</div>
+</section>
+
+
+<!-- END SLIDE submit-example -->
+
+<!-- START SLIDE into-the-sources-internal -->
+<section class="slide ">
+
+
+    <img src="../pictures/20min.jpg" alt="" class="cover height">
+</section>
+
+<!-- END SLIDE into-the-sources-internal -->
+
+<!-- START SLIDE postmessage-example -->
+<section class="slide grid">
+
+
+<pre><code class="hljs javascript">
+const send = () => {
+    const data = {...payload};
+    <mark>target.postMessage</mark>(
+        JSON.stringify(data),
+        window.location.origin
+    );
+}
+</code></pre>
+</section>
+
+<!-- END SLIDE postmessage-example -->
+
+<!-- START SLIDE postmessage-example-4 -->
+<section class="slide grid">
+
+
+<pre><code class="hljs javascript">
+const send = () => {
+    const data = {...payload};
+    <mark>target.postMessage(
+        JSON.stringify(data),
+        <mark class="important">window.location.origin</mark>
+    );</mark>
+}
+</code></pre>
+</section>
+
+<!-- END SLIDE postmessage-example-4 -->
+
+<!-- START SLIDE postmessage-example-3 -->
+<section class="slide grid">
+
+
+    <pre><code class="hljs javascript">import <mark class="important">{secret}</mark> from '~/secrets'
+const send = () => {
+    <mark>const data = {...payload, <mark class="important">secret</mark>};</mark>
+    target.postMessage(
+        JSON.stringify(data),
+        window.location.origin
+    );
+}
+</code></pre>
+</section>
+
+<!-- END SLIDE postmessage-example-3 -->
+
+<!-- START SLIDE onmessage-example -->
+<section class="slide grid">
+
+
+<pre><code class="hljs javascript">function listener(event) {
+  if (event.origin !== document.location.origin) {
+    return;
+  }
+}
+window.addEventListener("message", listener);
+</code></pre>
+</section>
+
+<!-- END SLIDE onmessage-example -->
+
+<!-- START SLIDE onmessage-example-1 -->
+<section class="slide grid">
+
+
+<pre><code class="hljs javascript">function listener(event) {
+  <mark>if (event.origin !== document.location.origin) {</mark>
+    return;
+  }
+}
+window.addEventListener("message", listener);
+</code></pre>
+</section>
+
+<!-- END SLIDE onmessage-example-1 -->
+
+<!-- START SLIDE onmessage-example-2 -->
+<section class="slide grid">
+
+
+  <pre><code class="hljs javascript"><mark>import {secret} from '~/secrets'</mark>
+function listener(event) {
+  if (event.origin !== document.location.origin) {
+    return;
+  }
+  <mark>if (data.secret !== secret) {</mark>
+    return;
+  }
+}
+window.addEventListener("message", listener);
+</code></pre>
+</section>
+
+<!-- END SLIDE onmessage-example-2 -->
+
+<!-- START SLIDE onmessage-example-3 -->
+<section class="slide grid">
+
+
+  <pre><code class="hljs javascript"><mark>import {secret} from '~/secrets'</mark>
+function listener(event) {
+  if (event.origin !== document.location.origin) {
+    return;
+  }
+  <mark>if (data.secret !== secret) {</mark>
+    <mark class="important">return;</mark>
+  }
+}
+window.addEventListener("message", listener);
+</code></pre>
+</section>
+
+<!-- END SLIDE onmessage-example-3 -->
+
+<!-- START SLIDE zlo -->
+<section class="slide">
+
+
+    <img class="cover height" src="../pictures/g.webp" alt="">
+</section>
+
+
+<!-- END SLIDE zlo -->
+
+<!-- START SLIDE trust -->
+<section class="slide">
+
+
+    <h4>Список опасностей</h4>
+    <img src="../pictures/long-list.jpg" class="next" alt="">
+</section>
+
+<!-- END SLIDE trust -->
+
+<!-- START SLIDE trust-2 -->
+<section class="slide">
+
+
+    <ul>
+        <li>Входящие параметры конфигурации
+            <small class="next">будут скомпроментированы</small>
+        </li>
+        <li class="next">Пользовательский ввод
+            <small class="next">содержит все, что угодно</small>
+        </li>
+        <li class="next">Скрипты на странице клиента
+            <small class="next">воруют данные карт</small>
+        </li>
+        <li class="next">Баги внутренней коммуникации <small class="next">отдают наружу данные карты</small></li>
+        <li class="next">Пакеты npm <small class="next">уязвимы и воруют данные карт</small></li>
+        <li class="next">Код на Stack Overflow <small class="next">имеет баги</small></li>
+        <li class="next">Вопрос на Stack Overflow <small class="next">раскроет детали проекта</small></li>
+        <li class="next">Lock файл <small class="next">позволяет внедрить любой код в проект</small></li>
+        <li class="next">...</li>
+    </ul>
+
+    <img src="../pictures/aaaa.jpg" class="cover width next">
+</section>
+
+<!-- END SLIDE trust-2 -->
+
+<!-- START SLIDE params -->
+<section class="slide grid">
+
+
+    <h4>Входящие параметры</h4>
+    <div>
+<pre><code class="hljs javascript">YourPaymentLib.initialize({
+    locale: 'ru-RU',
+    placeholder: 'Введите номер карты',
+})
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE params -->
+
+<!-- START SLIDE params-2 -->
+<section class="slide grid">
+
+
+<h4>Входящие параметры</h4>
+<div><pre><code class="hljs javascript">YourPaymentLib.initialize({
+    locale: <mark>'"/&gt;&lt;script&gt;....&lt;/script&gt;'</mark>
+    <mark>hackerProperty</mark>: {method:{...}},
+    placeholder: <mark>{toString(){alert(1)}}</mark>,
+    <mark class="important">__proto__</mark>: {...}
+})
+...
+</code></pre>
+</div>
+</section>
+
+<!-- END SLIDE params-2 -->
+
+<!-- START SLIDE configuration-3-0 -->
+<section class="slide grid">
+
+
+    <div>
+<pre><code class="hljs javascript">function loadConfig(<mark>config</mark>) {
+    <mark>Object.keys(config)</mark>
+        .forEach(key => {
+            this[key] = Sanitize.escape(
+                config[key]
+            );
+        })
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-3-0 -->
+
+<!-- START SLIDE configuration-3-1 -->
+<section class="slide grid">
+
+
+    <div>
+<pre><code class="hljs javascript">function loadConfig(config) {
+    Object.keys(config)
+        .forEach(key => {
+            this[key] = <mark>Sanitize.escape</mark>(
+                config[key]
+            );
+        })
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-3-1 -->
+
+<!-- START SLIDE configuration-3 -->
+<section class="slide grid">
+
+
+    <div>
+<pre><code class="hljs javascript">function loadConfig(config) {
+    <mark>Object.keys(config)</mark>
+        .forEach(key => {
+            <mark>this[key]</mark> = Sanitize.escape(
+                config[key]
+            );
+            <mark>//this[hackerProperty]...</mark>
+            <mark>//this[__proto__]...</mark>
+        })
+}
+</code></pre>
+    </div>
+    <img src="../pictures/no.png" class="cover next" alt="">
+</section>
+
+<!-- END SLIDE configuration-3 -->
+
+<!-- START SLIDE configuration-1 -->
+<section class="slide grid">
+
+
+<div>
+<pre><code class="hljs javascript">const defaultConfig = {}
+function loadConfig(config) {
+    Object.keys(defaultConfig)
+        .forEach(key => {
+            if (Sanitize.valid(key, config[key])) {
+                this[key] = Sanitize.escape(
+                    config[key]
+                );
+            }
+        })
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-1 -->
+
+<!-- START SLIDE configuration-2 -->
+<section class="slide grid">
+
+
+    <div>
+        <pre><code class="hljs javascript"><mark>const defaultConfig = {locale: '', placeholder: ''}</mark>
+function loadConfig(config) {
+    Object.keys(defaultConfig)
+        .forEach(key => {
+            if (Sanitize.valid(key, config[key])) {
+                this[key] = Sanitize.escape(
+                    config[key]
+                );
+            }
+        })
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-2 -->
+
+<!-- START SLIDE configuration-2-0 -->
+<section class="slide grid">
+
+
+    <div>
+        <pre><code class="hljs javascript">const defaultConfig = {locale: '', placeholder: ''}
+function loadConfig(config) {
+    <mark>Object.keys(defaultConfig)</mark>
+        .forEach(key => {
+            if (Sanitize.valid(key, config[key])) {
+                this[key] = Sanitize.escape(
+                    config[key]
+                );
+            }
+        })
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-2-0 -->
+
+<!-- START SLIDE configuration-4 -->
+<section class="slide grid">
+
+
+    <div>
+        <pre><code class="hljs javascript">const defaultConfig = {locale: '', placeholder: ''}
+function loadConfig(config) {
+    Object.keys(defaultConfig)
+        .forEach(key => {
+            if (<mark>Sanitize.valid(key, config[key])</mark>) {
+                this[key] = Sanitize.escape(
+                    config[key]
+                );
+            }
+        })
+}
+</code></pre>
+    </div>
+
+    <div class="next success-img"></div>
+</section>
+
+<!-- END SLIDE configuration-4 -->
+
+<!-- START SLIDE configuration-2-1 -->
+<section class="slide">
+
+
+    <div class="columns two">
+        <div>
+            <pre><code class="hljs javascript">configuration</code></pre>
+            <img src="../pictures/d2.jpg" alt="" style="width: 100%;height:auto">
+        </div>
+        <div class="next">
+            <pre><code class="hljs javascript">defaultConfiguration</code></pre>
+            <img src="../pictures/d1.jpg" alt="" style="width: 100%;height:auto">
+        </div>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-2-1 -->
+
+<!-- START SLIDE configuration-5 -->
+<section class="slide grid">
+
+
+<div>
+    <pre><code class="hljs javascript">const locales = ['ru-RU'];
+<mark>class Sanitize {</mark>
+    valid(key, value){
+        if (['__proto__'].includes(key) {
+            return false;
+        }
+        if (key === 'locale' && locales.includes(value)) {
+            return true;
+        }
+        return false;
+    }
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-5 -->
+
+<!-- START SLIDE configuration-6 -->
+<section class="slide grid">
+
+
+<div>
+    <pre><code class="hljs javascript">const locales = ['ru-RU'];
+class Sanitize {
+    valid(key, value){
+        <mark>if (['__proto__'].includes(key) {
+            return false;
+        }</mark>
+        if (key === 'locale' && locales.includes(value)) {
+            return true;
+        }
+        return false;
+    }
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-6 -->
+
+<!-- START SLIDE configuration-7 -->
+<section class="slide grid">
+
+
+<div>
+    <pre><code class="hljs javascript">const locales = ['ru-RU'];
+class Sanitize {
+    valid(key, value){
+        if (['__proto__'].includes(key) {
+            return false;
+        }
+        <mark>if (key === 'locale' && locales.includes(value)) {
+            return true;
+        }</mark>
+        return false;
+    }
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-7 -->
+
+<!-- START SLIDE configuration-8 -->
+<section class="slide grid">
+
+
+<div>
+    <pre><code class="hljs javascript">const locales = ['ru-RU'];
+class Sanitize {
+    valid(key, value){
+        if (['__proto__'].includes(key) {
+            return false;
+        }
+        if (key === 'locale' && locales.includes(value)) {
+            return true;
+        }
+        <mark>return false;</mark>
+    }
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-8 -->
+
+<!-- START SLIDE configuration-8-1 -->
+<section class="slide grid">
+
+
+<div>
+    <pre><code class="hljs javascript">const locales = ['ru-RU'];
+class Sanitize {
+    valid(key, value){
+        if (['__proto__'].includes(key) {
+            return false;
+        }
+        if (key === 'locale' && locales.includes(value)) {
+            <mark>return true;</mark>
+        }
+        return false;
+    }
+}
+</code></pre>
+    </div>
+</section>
+
+<!-- END SLIDE configuration-8-1 -->
+
+<!-- START SLIDE internal-communication -->
+<section class="slide grid">
+
+
+    <h2>Внутренняя коммуникация</h2>
+    <ul>
+        <li class="next">Применять подход схожий, на работу с конфигурацией</li>
+        <li class="next">Комментировать код</li>
+        <li class="next">
+            Везде опасность
+            <img src="../pictures/kill-company.png" style="width:80%" alt="">
+            <div class="danger-img"></div>
+        </li>
+    </ul>
+</section>
+
+<!-- END SLIDE internal-communication -->
+
+<!-- START SLIDE user-input -->
+<section class="slide grid">
+
+
+    <h2>Пользовательский ввод</h2>
+    <ul>
+        <li class="next">Экранировать</li>
+        <li class="next">Игнорировать или запрещать</li>
+    </ul>
+</section>
+
+<!-- END SLIDE user-input -->
+
+<!-- START SLIDE error-messages -->
+<section class="slide grid">
+
+
+    <h2>Сообщения об ошибках</h2>
+    <ul>
+        <li class="next">Ошибки инициализации приложения</li>
+        <li class="next">Ошибки валидации данных</li>
+        <li class="next">
+            Внутренние ошибки
+            <div class="danger-img"></div>
+        </li>
+    </ul>
+</section>
+
+<!-- END SLIDE error-messages -->
+
+<!-- START SLIDE internal-errors-0 -->
+<section class="slide grid">
+
+
+<pre><code class="hljs javascript">
+function listener(event) {
+    <mark>if (event.origin !== document.location.origin) {</mark>
+        <mark>return;</mark>
+    }
+
+    if(!Sanitize.valid(event)) {
+        throw new Error('Invalid event hash');
+    }
+}
+
+window.addEventListener("message", listener);
+</code></pre>
+</section>
+
+<!-- END SLIDE internal-errors-0 -->
+
+<!-- START SLIDE internal-errors -->
+<section class="slide grid">
+
+
+<pre><code class="hljs javascript">
+function listener(event) {
+    if (event.origin !== document.location.origin) {
+        return;
+    }
+
+    <mark>if(!Sanitize.valid(event)) {</mark>
+        throw new Error('Invalid event hash');
+    }
+}
+
+window.addEventListener("message", listener);
+</code></pre>
+</section>
+
+<!-- END SLIDE internal-errors -->
+
+<!-- START SLIDE internal-errors-2 -->
+<section class="slide grid">
+
+
+<pre><code class="hljs javascript">
+function listener(event) {
+    if (event.origin !== document.location.origin) {
+        return;
+    }
+
+    <mark>if(!Sanitize.valid(event)) {</mark>
+        <mark>throw new Error('Invalid event hash');</mark>
+    }
+}
+
+window.addEventListener("message", listener);
+</code></pre>
+<img src="../pictures/no.png" class="next cover width height next" alt="">
+</section>
+
+<!-- END SLIDE internal-errors-2 -->
+
+<!-- START SLIDE internal-errors-valid -->
+<section class="slide grid">
+
+
+<pre><code class="hljs javascript">
+function listener(event) {
+    if (event.origin !== document.location.origin) {
+        return;
+    }
+
+    if(!Sanitize.valid(event)) {
+        <mark>throw new Error('Rejected');</mark>
+    }
+}
+
+window.addEventListener("message", listener);
+</code></pre>
+    <div class="next success-img"></div>
+</section>
+
+<!-- END SLIDE internal-errors-valid -->
+
+<!-- START SLIDE 998-additional -->
+<section class="slide">
+
+
+    <h2>Что еще необходимо учитывать</h2>
+    <ul>
+        <li class="next">HTML <code>type=tel</code>, <code>autocorrect</code>, <code>spellcheck</code>, др.</li>
+        <li class="next">HTML autocomplete <code>cc-number</code>, <code>exp-date</code>, <code>cvc</code></li>
+        <li class="next">Ссылка на CDN вида <code>/v1/script.js</code></li>
+        <li class="next">Content-Security-Policy и другие заголовки, разные для каждого файла</li>
+        <li class="next">Верификация зависимостей, линтер кода, линтер lock файла</li>
+        <li class="next">Выпадающие списки, валидация, темы оформления, др.</li>
+        <li class="next">jQuery, Vue, React</li>
+        <li class="next">...</li>
+    </ul>
+</section>
+
+<!-- END SLIDE 998-additional -->
+
+<!-- START SLIDE cheaters -->
+<section class="slide s-che">
+
+
+    <h2 class="shout">
+        Всего бояться 	—
+        <br>
+        <small>
+            это хорошо
+        </small>
+    </h2>
+
+    <img src="../pictures/111.webp" alt="" class="s-che-img">
+</section>
+
+<style>
+    .s-che .s-che-img {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 20%;
+        height: auto;
+    }
+</style>
+
+<!-- END SLIDE cheaters -->
+
+<!-- START SLIDE 999 -->
+<section class="slide s-999">
+
+
+    <h2>Вопросы?</h2>
+    <p class="s-999-q">Спасибо за внимание! <br><a href="http://ed.titov.im/minskjs-feb-2020/"><small>ed.titov.im/minskjs-feb-2020</small></a></p>
+    <p class="s-999-end"><b>Эдуард Титов</b> <a href="http://ed.titov.im">ed.titov.im</a></p>
+
+</section>
+
+<style>
+    .s-999 .s-999-end {
+        position: absolute;
+        right: 0;
+        text-align: right;
+        bottom: 0;
+        padding: 75px var(--slide-side) 0;
+    }
+</style>
+
+<!-- END SLIDE 999 -->
+
+
+
+<!-- SLIDES END -->
+
+
+<div class="progress"></div>
+
+<script src="https://shwr.me/shower/shower.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+
+<link href="https://framepay.rebilly.com/rebilly.css" rel="stylesheet">
+<script src="https://framepay.rebilly.com/rebilly.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+
+</body>
+</html>
+

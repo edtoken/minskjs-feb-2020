@@ -1,0 +1,224 @@
+<section class="slide s-form-example">
+    <div class="s-work-example-card-wrapper">
+        <div class="example-4">
+            <form>
+                <fieldset>
+                    <div class="fields">
+                        <div class="field">
+                            <label>First Name</label>
+                            <div>
+                                <input data-rebilly="firstName" name="field1" placeholder="John" type="text">
+                            </div>
+                        </div>
+                        <span></span>
+                        <div class="field">
+                            <label>Last Name</label>
+                            <div>
+                                <input data-rebilly="lastName" name="field1" placeholder="Ruppert" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fields">
+                        <div class="field">
+                            <label>Email</label>
+                            <input data-rebilly="emails" name="field2" placeholder="jruppert@example.com" type="text">
+                        </div>
+                        <span></span>
+                        <div class="field">
+                            <label>Phone</label>
+                            <input data-rebilly="phoneNumbers" name="field3" placeholder="(123) 456-7890" type="text">
+                        </div>
+                    </div>
+                    <div class="fields fields-card">
+                        <div class="field">
+                            <label for="number">Payment Card</label>
+                            <div id="number"></div>
+                        </div>
+                    </div>
+                    <div class="fields fields-card">
+                        <div class="field">
+                            <label for="exp">Expiry Date</label>
+                            <div id="exp"></div>
+                        </div>
+                        <span></span>
+                        <div class="field">
+                            <label for="cvv">CVV Number</label>
+                            <div id="cvv"></div>
+                        </div>
+                    </div>
+                </fieldset>
+                <br>
+                <button>Make Payment</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    const connect = () => {
+        return setTimeout(() => {
+            if (typeof Rebilly === 'undefined') {
+                return connect();
+            }
+
+            Rebilly.initialize({
+                publishableKey: 'pk_sandbox_1234567890',
+            });
+            Rebilly.on('ready', function () {
+                Rebilly.card.mount('#number', 'cardNumber');
+                Rebilly.card.mount('#exp', 'cardExpiry');
+                Rebilly.card.mount('#cvv', 'cardCvv');
+            });
+        }, 100);
+    };
+    connect();
+</script>
+
+<style>
+
+    .s-form-example {
+
+    }
+
+    .s-form-example label {
+        margin-bottom: 0;
+        line-height: normal;
+        font-weight: normal;
+
+        color: #999;
+        display: block;
+        min-width: 60px;
+    }
+
+    .s-form-example input {
+        height: 3rem;
+    }
+
+    .s-form-example .fields-card label {
+        margin-bottom: 3px;
+    }
+
+    .example-4 {
+        width: 100%;
+        max-width: 90%;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        background: #fff;
+
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+    }
+
+    .example-4 * {
+    }
+
+    .example-4 fieldset {
+        border: none;
+        padding: 0;
+    }
+
+    .example-4 .fields {
+        display: flex;
+    }
+
+    .example-4 .fields > * {
+        flex: 1 auto;
+    }
+
+    .example-4 .fields span {
+        width: 10px;
+        display: block;
+        max-width: 10px;
+    }
+
+    .example-4 .fields + .fields {
+        margin-top: 20px;
+    }
+
+    .example-4 .field {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .example-4 input,
+    .example-4 button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        border-style: none;
+    }
+
+    .example-4 input {
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        margin: 0;
+        outline: 0;
+        padding: .5rem 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        border-bottom: 1px dashed #ddd;
+        border-right: 1px dashed #ddd;
+        border-left: 1px dashed #ddd;
+        border-top: 1px dashed #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .example-4 input:focus {
+        background: none;
+        color: #000000;
+    }
+
+    .example-4 input:-webkit-autofill {
+        -webkit-text-fill-color: #000000;
+        transition: background-color 100000000s;
+        -webkit-animation: 1ms void-animation-out;
+    }
+
+
+    .example-4 input::placeholder {
+        color: #333;
+    }
+
+    .example-4 button {
+        position: relative;
+        display: block;
+        padding: 16px 40px;
+        color: #ffffff;
+        margin: 0 auto;
+        background: #000000;
+        font-size: 16px;
+        text-align: center;
+        line-height: 20px;
+        font-style: normal;
+        width: 100%;
+        border-radius: 6px;
+        -webkit-box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .example-4 button:hover {
+        cursor: pointer;
+    }
+
+    .example-4 .rebilly-framepay {
+        background: transparent;
+        border-radius: 0;
+        padding: 0 1rem;
+        height: 3rem;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-top: 1px dashed green;
+        border-right: 1px dashed green;
+        border-left: 1px dashed green;
+        border-bottom: 2px solid green;
+    }
+
+    .example-4 .rebilly-framepay.rebilly-framepay-focus {
+        background: transparent;
+    }
+</style>

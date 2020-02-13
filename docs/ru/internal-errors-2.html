@@ -1,0 +1,16 @@
+<section class="slide grid">
+<pre><code class="hljs javascript">
+function listener(event) {
+    if (event.origin !== document.location.origin) {
+        return;
+    }
+
+    <mark>if(!Sanitize.valid(event)) {</mark>
+        <mark>throw new Error('Invalid event hash');</mark>
+    }
+}
+
+window.addEventListener("message", listener);
+</code></pre>
+<img src="../pictures/no.png" class="next cover width height next" alt="">
+</section>

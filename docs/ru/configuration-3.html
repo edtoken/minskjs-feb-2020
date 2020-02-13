@@ -1,0 +1,16 @@
+<section class="slide grid">
+    <div>
+<pre><code class="hljs javascript">function loadConfig(config) {
+    <mark>Object.keys(config)</mark>
+        .forEach(key => {
+            <mark>this[key]</mark> = Sanitize.escape(
+                config[key]
+            );
+            <mark>//this[hackerProperty]...</mark>
+            <mark>//this[__proto__]...</mark>
+        })
+}
+</code></pre>
+    </div>
+    <img src="../pictures/no.png" class="cover next" alt="">
+</section>

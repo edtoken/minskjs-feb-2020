@@ -1,0 +1,11 @@
+<section class="slide grid">
+    <pre><code class="hljs javascript">import <mark class="important">{secret}</mark> from '~/secrets'
+const send = () => {
+    <mark>const data = {...payload, <mark class="important">secret</mark>};</mark>
+    target.postMessage(
+        JSON.stringify(data),
+        window.location.origin
+    );
+}
+</code></pre>
+</section>

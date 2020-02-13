@@ -1,0 +1,49 @@
+import moment from 'moment';
+
+const originalState = () => ({
+    dateRange: {
+        start: moment().startOf('month').startOf('day'),
+        end: moment().endOf('day'),
+    },
+});
+
+const getters = {
+    dateRange: state => ({
+        start: moment(state.dateRange.start),
+        end: moment(state.dateRange.end),
+    }),
+    dateRangeISO: (state, getters) => ({
+        start: getters.dateRange.start.toISOString(),
+        end: getters.dateRange.end.toISOString(),
+    }),
+};
+
+const mutations = {
+    /**
+     *
+     * @param state
+     * @param {Moment} start
+     * @param {Moment} end
+     */
+    setDateRange: (state, {start, end}) => {
+        state.dateRange = {
+            start: start.startOf('day'),
+            end: end.endOf('day'),
+        };
+    },
+};
+
+const actions = () => ({
+    setDateRange: ({commit}, payload) => {
+        commit('setDateRange', payload);
+    },
+});
+
+
+export default {
+    namespaced: true,
+    state: originalState(),
+    getters,
+    mutations,
+    actions: actions(),
+};

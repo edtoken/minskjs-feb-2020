@@ -1,0 +1,15 @@
+<section class="slide grid">
+<pre><code class="hljs javascript">
+function listener(event) {
+    if (event.origin !== document.location.origin) {
+        return;
+    }
+
+    <mark>if(!Sanitize.valid(event)) {</mark>
+        throw new Error('Invalid event hash');
+    }
+}
+
+window.addEventListener("message", listener);
+</code></pre>
+</section>
