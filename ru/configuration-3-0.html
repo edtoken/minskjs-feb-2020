@@ -1,0 +1,13 @@
+<section class="slide grid">
+    <div>
+<pre><code class="hljs javascript">function loadConfig(<mark>config</mark>) {
+    <mark>Object.keys(config)</mark>
+        .forEach(key => {
+            this[key] = Sanitize.escape(
+                config[key]
+            );
+        })
+}
+</code></pre>
+    </div>
+</section>

@@ -1,0 +1,35 @@
+{
+  "name": "secure-input-minskjs-2019",
+  "description": "Secure input slides MinskJS 2019",
+  "version": "2.7.0",
+  "author": {
+    "name": "Eduard.titov",
+    "url": "http://ed.titov.im"
+  },
+  "homepage": "http://ed.titov.im/secure-input-minskjs-2019",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:edtoken/secure-input-minskjs-2019.git"
+  },
+  "scripts": {
+    "develop": "run-p -r watch:html shower:serve",
+    "build": "run-s build:html shower:archive",
+    "serve": "run-s shower:serve",
+    "watch:html": "node watch.js",
+    "build:html": "node build.js",
+    "shower:serve": "shower serve",
+    "shower:archive": "shower archive",
+    "shower:prepare": "shower prepare",
+    "shower:publish": "shower publish",
+    "shower:pdf": "shower pdf"
+  },
+  "dependencies": {
+    "@shower/core": "^2.1.2",
+    "@shower/ribbon": "^3.2.3"
+  },
+  "devDependencies": {
+    "@shower/cli": "^0.2.9",
+    "chokidar": "^3.3.1",
+    "npm-run-all": "^4.1.5"
+  }
+}

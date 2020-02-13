@@ -1,0 +1,13 @@
+<section class="slide grid">
+  <pre><code class="hljs javascript"><mark>import {secret} from '~/secrets'</mark>
+function listener(event) {
+  if (event.origin !== document.location.origin) {
+    return;
+  }
+  <mark>if (data.secret !== secret) {</mark>
+    return;
+  }
+}
+window.addEventListener("message", listener);
+</code></pre>
+</section>

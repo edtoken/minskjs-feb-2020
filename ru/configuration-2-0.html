@@ -1,0 +1,16 @@
+<section class="slide grid">
+    <div>
+        <pre><code class="hljs javascript">const defaultConfig = {locale: '', placeholder: ''}
+function loadConfig(config) {
+    <mark>Object.keys(defaultConfig)</mark>
+        .forEach(key => {
+            if (Sanitize.valid(key, config[key])) {
+                this[key] = Sanitize.escape(
+                    config[key]
+                );
+            }
+        })
+}
+</code></pre>
+    </div>
+</section>
